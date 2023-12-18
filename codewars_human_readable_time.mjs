@@ -1,24 +1,16 @@
 function humanReadable (seconds) {
-    const timeArr = []
-    timeArr[0] = Math.floor(seconds/3600); 
-    timeArr[1] = Math.floor((seconds%3600)/60); 
-    timeArr[2] = Math.floor((seconds%3600)%60);
-    const timeString = timeArr.map(x => String(x).padStart(2, "0")).join(":");
-    return timeString;
-
+    const hours = Math.floor(seconds/3600); 
+    const mins = Math.floor((seconds%3600)/60); 
+    const secs = (seconds%3600)%60;
+    return [hours, mins, secs].map(x => String(x).padStart(2, "0")).join(":");
   }
-  const seconds = 45296;
-  const timeArr = []
-  timeArr[0] = Math.floor(seconds/3600); 
-  timeArr[1] = Math.floor((seconds%3600)/60); 
-  timeArr[2] = Math.floor((seconds%3600)%60);
-  const timeString = timeArr.map(x => String(x).padStart(2, "0")).join(":");
-  console.log(timeString);
-  
-  console.log(Math.floor(seconds/3600)); // total hours
-  console.log(Math.floor((seconds%3600)/60)); // total minutes without hours
-  console.log((seconds%3600)%60); // total seconds without minutes
-//   3600 seconds in one hour
 
-console.log('0'+'1');
-//  
+  console.log(humanReadable(432149))
+
+//   changing my code after looking at people from code wars
+function humanReadable1 (seconds) {
+    const HHMMSS = [Math.floor(seconds/3600),Math.floor((seconds%3600)/60),seconds%60];
+    return HHMMSS.map(x => String(x).padStart(2, "0")).join(":");
+  }
+
+  console.log(humanReadable1(432149))
