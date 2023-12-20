@@ -1,21 +1,12 @@
 function isSolved(board) {
-    let winner = 0;
     let zerosPresent = false;
-    for(const row of board){
-        for(const col of row){
-            if(col == 0) zerosPresent = true;
-        }
-    }
+    for(const row of board) {if(row.indexOf(0) !== -1) zerosPresent = true;}
 
     for(const symbol of [1,2]){
-        for(const col of [0,1,2]){
-            if(verticalCheck(board,col,symbol)) return symbol;
-        }
-        for(const row of [0,1,2]){
-            if(horizontalCheck(board,row,symbol)) return symbol;
-        }
-        for(const col of [0,1,2]){
-            if(diagonalCheck(board,col,symbol)) return symbol;
+        for(const place of [0,1,2]){
+            if(verticalCheck(board,place,symbol)) return symbol;
+            if(horizontalCheck(board,place,symbol)) return symbol;
+            if(diagonalCheck(board,place,symbol)) return symbol;
         }
     }
 
