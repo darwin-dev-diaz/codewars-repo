@@ -1,5 +1,26 @@
 function isSolved(board) {
-    const checkHorizontal = [[]]
+    let winner = 0;
+    let zerosPresent = false;
+    for(const row of board){
+        for(const col of row){
+            if(col == 0) zerosPresent = true;
+        }
+    }
+
+    for(const symbol of [1,2]){
+        for(const col of [0,1,2]){
+            if(verticalCheck(board,col,symbol)) return symbol;
+        }
+        for(const row of [0,1,2]){
+            if(horizontalCheck(board,row,symbol)) return symbol;
+        }
+        for(const col of [0,1,2]){
+            if(diagonalCheck(board,col,symbol)) return symbol;
+        }
+    }
+
+    const output = zerosPresent ? -1 : 0;
+    return output;
   }
 
 
@@ -29,29 +50,7 @@ function diagonalCheck(arr, startColumn, symbol){
     return true;
 }
 
-const arr = [[0,1,0],
-            [0,1,0],
-            [0,1,0]]
-const symbol = 1;
-const checkHorizontal = [[0,0],[1,0],[2,0]];
-const checkVeritcal = [[0,0],[0,1],[0,2]];
-const checkDiagnol = [[0,0],[0,2]];
-
-// for(const coords of checkHorizontal){
-//     if(horizontalCheck(arr, coords[0], symbol)){
-//         console.log(`${symbol} matched horizontally at ${coords}`);
-//         break;
-//     }
-// }
-for(const coords of checkVeritcal){
-    if(verticalCheck(arr, coords[1], symbol)){
-        console.log(`${symbol} matched vertically at ${coords}`);
-        break;
-    }
-}
-// for(const coords of checkHorizontal){
-//     if(horizontalCheck(arr, coords[0], symbol)){
-//         console.log(`${symbol} matched horizontally at ${coords}`);
-//         break;
-//     }
-// }
+const board = [[2,1,1],
+            [1,2,2],
+            [2,1,1]]
+console.log(isSolved(board));
