@@ -1,80 +1,53 @@
 function recoverSecret(triplets) {
-  // find the number of letters in the secret word
-  const numberOfLetters = [...new Set(triplets.join("").replaceAll(",", ""))]
-    .length;
-  // create a building list from the the first entry of triplets. remove first entry
-  const buildingList = triplets.splice(0, 1)[0];
-  // get a selected list for all unique letters
-  for (let i = 0; i < numberOfLetters; i++) {
-    
-  }
-  
-  // search for another list in triplets that starts with the same letter as buildingList[0]. put that list into a selectedList variable
-  let selectedList = setSelectedList(buildingList, triplets);
+  // create string of individual chars and the building list
+  const originalString = [...new Set(triplets.join("").replaceAll(",", ""))].join('');
+  let buildingList = Array.from(originalString);
+  // while the number of movements is greater than 0, iterate through the chars of the originalString
+  let movements = 1;
+  while(movements > 0){
+    movements = 0;
+    let containsCharList = []
+    for(const char of originalString){
+      // get a list of the all the lists that contain char
+      console.log(`char ${char}`);
+      containsCharList = triplets.filter(list => list.includes(char));
+      console.log(`containsCharList`);
+      console.log(containsCharList);
 
-  // find the dissimilar character (between buildingList and selectedList)
-  let dissimilarChar = selectedList.filter(
-    (char) => buildingList.indexOf(char) == -1
-  )[0];
-  // place the dissimilarChar at the correct location in buildingList
-  buildingList.splice(selectedList.indexOf(dissimilarChar), 0, dissimilarChar);
+      // is char in front of any other characters in the list of contain char list?
+      let inFrontOfList = [] 
+      for(const list of containsCharList){
+        for(const letter of list){
+          if(list.indexOf(letter) < list.indexOf(char)) inFrontOfList.push(letter); 
+        }
+        inFrontOfList = [...new Set(inFrontOfList)]
+      }
+      console.log(`inFrontOfList ${inFrontOfList}`);
 
-  return buildingList;
-}
+      // if the char isn't in front of any other chars, then place that at buildingList[0]
+      // code here
 
-function setSelectedList(buildingList, triplets) {
-  // case where there is a list inside of triplets where the first char is equal the the first char of buildingList
-  for (const [i, list] of triplets.entries()) {
-    if (list[0] == buildingList[0]) {
-      return triplets.splice(i, 1)[0];
+      // of the letters in inFrontOfList, which one is at the furthest index?
+      console.log(`buildingList ${buildingList}`);
+      let inFrontLargestIndex = inFrontOfList.reduce((accumulator, currentValue) => {if(buildingList.indexOf(currentValue) > accumulator) accumulator = currentValue}, 'test');
+      // current problem is that this reduce method isnt returning to me the letter in inFrontOfList that is furthest in buildingList
+
+
+      console.log(`inFrontLargestIndex ${inFrontLargestIndex}`);
+      console.log();
     }
   }
-  // case where there isn't a list inside of triplets where the fist chat is the the same as the first char of buildingList
-  for (const [i, list] of triplets.entries()) {
-    if (list[1] == buildingList[0]) {
-      return triplets.splice(i, 1)[0];
-    }
-  }
+
+
+  return;
 }
-
-function recoverSecret1(triplets) {
-  const numberOfLetters = [...new Set(triplets.join("").replaceAll(",", ""))]
-    .length;
-  const buildingList = triplets.splice(0, 1)[0];
-  // its numberOfLetters minus 3 because we already have three letters after initiating the buildingList
-  for (let i = 0; i < numberOfLetters-3; i++) {
-    let selectedList = setSelectedList(buildingList, triplets);
-    let dissimilarChar = selectedList.filter(
-      (char) => buildingList.indexOf(char) == -1
-    )[0];
-    buildingList.splice(selectedList.indexOf(dissimilarChar), 0, dissimilarChar);
-  }
-
-  return buildingList.join('');
-}
-
-
 const triplets1 = [
-  ["t", "u", "p"],
-  ["w", "h", "i"],
-  ["t", "s", "u"],
-  ["a", "t", "s"],
-  ["h", "a", "p"],
-  ["t", "i", "s"],
-  ["w", "h", "s"],
-];
-
-console.log(recoverSecret1(triplets1));
-
-let buildingList = [ 't', 'u', 'p' ];
-let triplets = [
-  ["t", "s", "u"],
-  ["w", "h", "i"],
-  ["a", "t", "s"],
-  ["h", "a", "p"],
-  ["w", "h", "s"],
-];
-
-
-// current problem is that in my function loop, selectedList is set to undefined for some reason. 
-// for some reason it is taking two items out of the list of triplets
+  ['t','u','p'],
+  ['w','h','i'],
+  ['t','s','u'],
+  ['a','t','s'],
+  ['h','a','p'],
+  ['t','i','s'],
+  ['w','h','s']
+]
+console.log(recoverSecret(triplets1));
