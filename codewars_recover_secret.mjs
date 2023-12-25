@@ -68,4 +68,79 @@ const triplets1 = [
   ['t','i','s'],
   ['w','h','s']
 ]
-console.log(recoverSecret(triplets1));
+// console.log(recoverSecret(triplets1));
+
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// BEST PRACTICES
+// I really liked this solution, it was clever how he made use of recursion and how he manipulated the triplet array
+var recoverSecret1 = function(triplets) {
+  console.log(triplets);
+  // this one uses recursion ... 
+  // for each array in triplets (the word [first] returns to us the first element of each array in triplet)
+  for(var [first] of triplets)
+  {
+    // if the index of the first character of each triple in triplets is either first or it isn't in the triplet list
+    // basically saying if the character isn't in front of any other character
+    if (triplets.every(tuple => tuple.indexOf(first) <= 0))
+    {
+      // then filter triplets by the lists where the first item is equal to the letter we are currently on
+      // and for each of these filtered lists, remove the first item of (the current character) 
+      // array.shift() removes and returns the first element of the array
+      triplets.filter(([item]) => item == first).forEach(tuple => tuple.shift());
+      // return the character and call this loop again on the augmented triplets list
+      // also, though, we are making sure that our function doesn't search any tuples that are empty
+      // we do this by removing empty arrays in triplets
+      return first + recoverSecret1(triplets.filter(tuple => tuple.length > 0));
+    }
+  }
+  return '';
+}
+
+console.log(recoverSecret1(triplets1));
+
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// BEST PRACTICE TWO
+// when you come back, try to understand this for 30 mins before moving on to the next challenge
+var recoverSecret2 = function(triplets) {
+  var nodes = []
+  var graph = {}
+  var sortedlist = []
+
+  function visit(node) {
+    // if the node is not currently in our sortedList
+    if (sortedlist.indexOf(node) < 0) {
+      (graph[node] || []).forEach(function (node2) { visit(node2) })
+      sortedlist.unshift(node)
+    }
+  }
+
+  triplets.forEach(function (triplet) {
+    triplet.forEach(function (node) {
+      if (nodes.indexOf(node) < 0) nodes.push(node);
+    })
+    graph[triplet[0]] = (graph[triplet[0]] || []).concat(triplet[1])
+    graph[triplet[1]] = (graph[triplet[1]] || []).concat(triplet[2])
+  })
+
+  while (nodes.length) visit(nodes.pop());
+  return sortedlist.join('');
+}
