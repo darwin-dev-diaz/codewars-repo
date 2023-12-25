@@ -24,22 +24,40 @@ function recoverSecret(triplets) {
       }
       console.log(`inFrontOfList ${inFrontOfList}`);
 
-      // if the char isn't in front of any other chars, then place that at buildingList[0]
-      // code here
-
-      // of the letters in inFrontOfList, which one is at the furthest index?
+      // of the letters in inFrontOfList, which one is at the furthest index in buildingList?
       console.log(`buildingList ${buildingList}`);
-      let inFrontLargestIndex = inFrontOfList.reduce((accumulator, currentValue) => {if(buildingList.indexOf(currentValue) > accumulator) accumulator = currentValue}, 'test');
-      // current problem is that this reduce method isnt returning to me the letter in inFrontOfList that is furthest in buildingList
-
-
-      console.log(`inFrontLargestIndex ${inFrontLargestIndex}`);
+      let furthestLetter = 'NONE';
+      for(const letter of inFrontOfList){
+        if(buildingList.indexOf(letter)>buildingList.indexOf(furthestLetter)){
+          furthestLetter = letter;
+        }
+      }
+      
+      console.log(`furthestLetter ${furthestLetter}`);
+      
+      //check if the letter already honors the furthestLetter in buildingList
+      //is the letter already inFrontOfTheLetters it should be in front of?
+      let honorsFurthestLetter = buildingList.indexOf(char) < buildingList.indexOf(furthestLetter) ? false : true;
+      console.log(`honorsFurthestLetter ${honorsFurthestLetter}`);
+      
+      //swap char in buildingList with the furthestLetter if honorsFurthestLetter is false
+      // also, increase movement count
+      if(!honorsFurthestLetter){
+        let charIndex = buildingList.indexOf(char);
+        let furthestLetterIndex = buildingList.indexOf(furthestLetter);
+        buildingList[charIndex] = furthestLetter;
+        buildingList[furthestLetterIndex] = char;
+        movements += 1;
+      }
+      console.log(`buildingList ${buildingList}`);
+      
+      console.log();
       console.log();
     }
   }
 
 
-  return;
+  return buildingList.join('');
 }
 const triplets1 = [
   ['t','u','p'],
