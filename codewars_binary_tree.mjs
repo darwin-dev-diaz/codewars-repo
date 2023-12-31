@@ -27,19 +27,6 @@ function placeChildrenInList(rootNode) {
 function getValue(rootNode) {
   return rootNode.value;
 }
-function treeByLevels(rootNodes) {
-  if (!rootNodes || rootNodes.length == 0) return [];
-
-  let arr = [];
-  if(Array.isArray(rootNodes)){
-    rootNodes = rootNodes.map((node) => placeChildrenInList(node)).flat();
-  } else {
-    arr = arr.concat(rootNodes);
-    rootNodes = placeChildrenInList(rootNodes);
-  }
-  arr = arr.concat(rootNodes).map((node) => getValue(node));
-  return arr.concat(treeByLevels(rootNodes));
-}
 
 console.log(treeByLevels(null));
 console.log(treeByLevels(treeOne));
